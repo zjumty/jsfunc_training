@@ -24,3 +24,16 @@ var AsyncModule = (function ($) {
         }
     }
 })(jQuery);
+
+var TDDSample = (function ($, _) {
+    return {
+        sigma: function (a, b) {
+            var sum = 0,
+                i = a;
+            for (; i <= b; i++) {
+                sum += i;
+            }
+            return sum;
+        }
+    }
+})(jQuery, _);

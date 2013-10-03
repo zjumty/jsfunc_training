@@ -21,6 +21,11 @@ TestCase("HelloTest", {
         var bar = $(".bar");
         assertNotNull(bar);
         assertEquals("SPAN", bar.get(0).tagName);
+    },
+
+    "test driven devlopment" : function(){
+        assertEquals(15, TDDSample.sigma(1, 5));
+        assertEquals(21, TDDSample.sigma(1, 6));
     }
 
 });
