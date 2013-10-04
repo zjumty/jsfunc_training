@@ -107,6 +107,49 @@ TestCase("function arguments test", {
 
         sum.call(o2, 1, 2, 3, 4);
         assertEquals(10, o2.result);
+    },
+
+    "test bind method": function () {
+
+        var sum = function () {
+            var n = 0;
+            for (var i = 0; i < arguments.length; i++) {
+                n += arguments[i];
+            }
+            this.result = n;
+        };
+
+        var o1 = {},
+            o2 = {};
+
+        // 把o1绑定为sum的function context
+        // 注意：返回一个新的函数， 原始的sum并未发生变化。
+        var sum2 = sum.bind(o1);
+
+        sum2.apply(o2, [1, 2, 3, 4, 5]);
+        assertTrue(undefined === o2.result);
+        assertTrue(15 === o1.result);
+
+        // 原始的sum函数并未发生变化
+        sum.apply(o2, [1, 2, 3]);
+        assertEquals(6, o2.result);
+
+        // bind还可以绑定参数
+        var add = function (a, b, c) {
+            return a + b + c;
+        };
+
+        // 2+4+6
+        assertEquals(12, add(2, 4, 6));
+
+        var add2 = add.bind(undefined, 1);
+        // 1+4+6
+        assertEquals(11, add2(4, 6));
+
+        var add3 = add2.bind(undefined, 3);
+        // 1+3+6;
+        assertEquals(10, add3(6));
+
     }
 
 });
