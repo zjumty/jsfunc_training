@@ -246,7 +246,39 @@ TestCase("underscore test", {
         assertEquals(3, _.size(obj));
     },
 
-    "test chain/value": function () {
+    "test chain/value1": function () {
+        var list = [
+            {name: "Terry", gender: "m", age: 10},
+            {name: "Ivan", gender: "m", age: 5},
+            {name: "Zoe", gender: "f", age: 30},
+            {name: "Dre", gender: "m", age: 8}
+        ];
+
+        // SELECT name, age FROM T WHERE age > 5 ORDER BY age
+
+        // => {
+        //     "m":[
+        //         {name: "Dre", gender: "m"},
+        //         {name: "Terry", gender: "m"}
+        //     ],
+        //     "f":{name: "Zoe", gender: "f"}
+        // }
+        var results = _.chain(list)
+            .select(function(p){ return p.age > 5})
+            .sortBy("age")
+            .collect(function(p){return _.pick(p, "name", "gender")})
+            .groupBy("gender")
+            .value();
+
+        console.log(results);
+        assertEquals(2, results["m"].length);
+        assertEquals(1, results["f"].length);
+        assertEquals("Dre", results["m"][0].name);
+        assertEquals("Terry", results["m"][1].name);
+        assertEquals("Zoe", results["f"][0].name);
+    },
+
+    "test chain/value2": function () {
         var list = [
             {name: "Terry", gender: "m", age: 10},
             {name: "Ivan", gender: "m", age: 5},
